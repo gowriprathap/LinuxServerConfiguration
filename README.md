@@ -17,7 +17,7 @@ You can visit http://54.254.213.105/ or http://ec2-54-254-213-105.ap-southeast-1
 - Login into [Amazon Lightsail](https://lightsail.aws.amazon.com/ls/webapp/home/resources) using an Amazon Web Services account.
 - Create an account if you do not already have one. Log in to the site, and then click `Create instance`.
 - Choose `Linux/Unix` platform, `OS Only` and  `Ubuntu 16.04 LTS`.
-- Choose an instance plan (preferably the cheapest)
+- Choose an instance plan (preferably the cheapest, and you can cancel after before one month free of charge)
 - You can retain the default name provided by AWS or rename your instance.
 - Click the `Create` button to create the instance, and wait for the instance to start up.
 
@@ -172,7 +172,12 @@ ubuntu@ip-172-26-2-165:~$
 
 - While logged in as `grader`, configure the time zone: `sudo dpkg-reconfigure tzdata`. Configure it to your timezone.
 
-### Step 10: Install and configure Apache to serve a Python mod_wsgi application
+### Step 10: Disable ssh login for root user
+- Run sudo nano /etc/ssh/sshd_config
+- Change PermitRootLogin without-password line to PermitRootLogin no
+- Restart ssh with sudo service ssh restart
+
+### Step 11: Install and configure Apache to serve a Python mod_wsgi application
 
 - While logged in as `grader`, install Apache using the command: `sudo apt-get install apache2`.
 - Enter public IP of the Amazon Lightsail instance (in this case, 54.254.213.105) into browser. If Apache is working, you should see a welcome page.
@@ -183,7 +188,7 @@ ubuntu@ip-172-26-2-165:~$
 - Start the web server with `sudo service apache2 start`
 
 
-### Step 11: Install and configure PostgreSQL
+### Step 12: Install and configure PostgreSQL
 
 - While logged in as `grader`, install PostgreSQL using the command:
  `sudo apt-get install postgresql`.
@@ -260,13 +265,13 @@ ubuntu@ip-172-26-2-165:~$
 - Switch back to the `grader` user: `exit`.
 
 
-### Step 12: Install git
+### Step 13: Install git
 
 - While logged in as `grader`, install `git`: `sudo apt-get install git`.
 
 ## Deploy the Item Catalog project
 
-### Step 13.1: Clone and setup the Item Catalog project from the GitHub repository
+### Step 14: Clone and setup the Item Catalog project from the GitHub repository
 
 - While logged in as `grader`, create `/var/www/catalog/` directory.
 - Change to that directory and clone the catalog project:<br>
@@ -288,7 +293,7 @@ ubuntu@ip-172-26-2-165:~$
    ```
 
 
-### Step 14.1: Install the virtual environment and dependencies
+### Step 15: Install the virtual environment and dependencies
 
 - While logged in as `grader`, install pip: `sudo apt-get install python-pip`.
 - Install the virtual environment: `sudo pip install virtualenv`
@@ -312,7 +317,7 @@ ubuntu@ip-172-26-2-165:~$
   * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
   ```
 
-### Step 14.2: Set up and enable a virtual host
+### Step 16: Set up and enable a virtual host
 
 - Create `/etc/apache2/sites-available/catalog.conf` and add the
 following lines to configure the virtual host:
@@ -348,7 +353,7 @@ following lines to configure the virtual host:
 
 
 
-### Step 14.3: Set up the Flask application
+### Step 17: Set up the Flask application
 
 - Create `/var/www/catalog/catalog.wsgi` file add the following lines:
 
@@ -371,7 +376,7 @@ following lines to configure the virtual host:
 - Restart Apache: `sudo service apache2 restart`.
 
 
-### Step 14.6: Launch the Web Application
+### Step 18: Launch the Web Application
 
 - Change the ownership of the project directories: `sudo chown -R www-data:www-data catalog/`.
 - Restart Apache again: `sudo service apache2 restart`.
